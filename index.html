@@ -1,0 +1,1036 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chuchoose — Grill Your Way</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&family=Black+Han+Sans&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --coal: #1a1008;
+    --ember: #c94a1a;
+    --amber: #e8860a;
+    --gold: #f5c842;
+    --cream: #fdf4e3;
+    --smoke: #2e2318;
+    --ash: #7a6a58;
+    --glow: #ff7c2a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--coal);
+    color: var(--cream);
+    font-family: 'DM Sans', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 1.2rem 4rem;
+    background: rgba(26,16,8,0.85);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(232,134,10,0.2);
+  }
+  .nav-logo {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 1.8rem;
+    color: var(--gold);
+    letter-spacing: 2px;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--ember); }
+  nav ul { list-style: none; display: flex; gap: 2.5rem; }
+  nav ul a {
+    color: var(--cream); text-decoration: none;
+    font-size: .9rem; font-weight: 500; letter-spacing: 1px;
+    text-transform: uppercase; transition: color .2s;
+  }
+  nav ul a:hover { color: var(--gold); }
+
+  /* ── HERO ── */
+  #home {
+    min-height: 100vh;
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    background: radial-gradient(ellipse 80% 60% at 50% 80%, #5a1a00 0%, var(--coal) 70%);
+  }
+  .hero-food-bg {
+    position: absolute; inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=1400&q=60');
+    background-size: cover; background-position: center;
+    opacity: 0.08; filter: saturate(1.5);
+  }
+  .hero-bg-text {
+    position: absolute; font-family: 'Black Han Sans', sans-serif;
+    font-size: 28vw; color: rgba(201,74,26,0.06);
+    top: 50%; left: 50%; transform: translate(-50%, -50%);
+    white-space: nowrap; pointer-events: none; user-select: none;
+  }
+  .ember-particles { position: absolute; inset: 0; pointer-events: none; }
+  .ember-particles span {
+    position: absolute; width: 3px; height: 3px; border-radius: 50%;
+    background: var(--amber); opacity: 0;
+    animation: float-up 4s infinite ease-in;
+  }
+  @keyframes float-up {
+    0% { opacity: 0; transform: translateY(0) scale(1); }
+    20% { opacity: 1; }
+    80% { opacity: .5; }
+    100% { opacity: 0; transform: translateY(-80vh) scale(0.3) translateX(20px); }
+  }
+  .hero-content { text-align: center; position: relative; z-index: 2; }
+  .hero-eyebrow {
+    font-size: .8rem; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--amber); margin-bottom: 1rem;
+    animation: fade-in-up .8s ease both;
+  }
+  .hero-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(4rem, 12vw, 9rem);
+    font-weight: 900; line-height: .9;
+    color: var(--cream);
+    animation: fade-in-up .8s .15s ease both;
+  }
+  .hero-title em {
+    font-style: italic; color: var(--ember);
+    display: block;
+  }
+  .hero-sub {
+    font-size: 1.1rem; color: var(--ash); max-width: 480px; margin: 1.5rem auto 2.5rem;
+    line-height: 1.7; animation: fade-in-up .8s .3s ease both;
+  }
+  .hero-cta {
+    display: inline-flex; gap: 1rem; flex-wrap: wrap; justify-content: center;
+    animation: fade-in-up .8s .45s ease both;
+  }
+  .btn-primary {
+    padding: .9rem 2.4rem; background: var(--ember); color: var(--cream);
+    font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: .95rem;
+    letter-spacing: 1px; text-transform: uppercase; text-decoration: none;
+    border: none; cursor: pointer;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    transition: background .2s, transform .2s;
+  }
+  .btn-primary:hover { background: var(--glow); transform: translateY(-2px); }
+  .btn-ghost {
+    padding: .9rem 2.4rem; background: transparent; color: var(--gold);
+    font-family: 'DM Sans', sans-serif; font-weight: 500; font-size: .95rem;
+    letter-spacing: 1px; text-transform: uppercase; text-decoration: none;
+    border: 1px solid var(--amber); cursor: pointer;
+    clip-path: polygon(12px 0%, 100% 0%, calc(100% - 12px) 100%, 0% 100%);
+    transition: background .2s, color .2s;
+  }
+  .btn-ghost:hover { background: var(--amber); color: var(--coal); }
+  .hero-grill {
+    font-size: 6rem; margin-bottom: 1rem;
+    animation: fade-in-up .8s .05s ease both, sizzle 3s 1s ease-in-out infinite;
+  }
+  @keyframes sizzle {
+    0%, 100% { transform: rotate(-2deg); }
+    50% { transform: rotate(2deg); }
+  }
+  @keyframes fade-in-up {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  .scroll-hint {
+    position: absolute; bottom: 2rem; left: 50%; transform: translateX(-50%);
+    color: var(--ash); font-size: .75rem; letter-spacing: 3px; text-transform: uppercase;
+    animation: bounce 2s infinite;
+  }
+  @keyframes bounce {
+    0%, 100% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(8px); }
+  }
+
+  /* ── SECTIONS SHARED ── */
+  section { padding: 7rem 4rem; }
+  .section-label {
+    font-size: .75rem; letter-spacing: 5px; text-transform: uppercase;
+    color: var(--amber); margin-bottom: .5rem;
+  }
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 5vw, 3.8rem); font-weight: 900;
+    color: var(--cream); line-height: 1.1; margin-bottom: 1.5rem;
+  }
+  .section-title em { color: var(--ember); font-style: italic; }
+  .divider {
+    width: 60px; height: 3px;
+    background: linear-gradient(90deg, var(--ember), var(--amber));
+    margin-bottom: 2rem;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--smoke);
+    display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center;
+  }
+  .about-visual {
+    position: relative; display: flex; justify-content: center;
+  }
+  .grill-plate {
+    width: 320px; height: 320px; border-radius: 50%;
+    background: radial-gradient(circle, #3a2010 0%, #1a0d05 60%);
+    border: 4px solid rgba(232,134,10,0.3);
+    display: flex; align-items: center; justify-content: center;
+    overflow: hidden;
+    box-shadow: 0 0 80px rgba(201,74,26,0.3), inset 0 0 40px rgba(0,0,0,0.5);
+    animation: glow-pulse 3s ease-in-out infinite;
+  }
+  .grill-plate img {
+    width: 100%; height: 100%; object-fit: cover; border-radius: 50%;
+    opacity: .85;
+  }
+  .bs-img {
+    width: 100%; height: 180px; object-fit: cover;
+    margin: -2rem -2rem 1.2rem -2rem;
+    width: calc(100% + 4rem);
+    display: block;
+    border-bottom: 2px solid rgba(201,74,26,0.3);
+  }
+  .menu-thumb {
+    width: 72px; height: 72px; object-fit: cover;
+    border-radius: 6px; flex-shrink: 0;
+    border: 1px solid rgba(232,134,10,0.2);
+  }
+  .hero-img-ring {
+    position: absolute; inset: 0; border-radius: 50%; overflow: hidden;
+  }
+  .hero-img-ring img {
+    width: 100%; height: 100%; object-fit: cover; opacity: .15;
+    filter: saturate(1.5);
+  }
+  @keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 80px rgba(201,74,26,0.3); }
+    50% { box-shadow: 0 0 120px rgba(232,134,10,0.5); }
+  }
+  .about-ring {
+    position: absolute; inset: -20px; border-radius: 50%;
+    border: 1px dashed rgba(232,134,10,0.2);
+    animation: spin-slow 20s linear infinite;
+  }
+  .about-ring::before {
+    content: '🔥'; position: absolute; top: 10px; left: 50%; transform: translateX(-50%);
+  }
+  @keyframes spin-slow { to { transform: rotate(360deg); } }
+  .about-text p {
+    color: var(--ash); line-height: 1.9; font-size: 1rem; margin-bottom: 1rem;
+  }
+  .about-stats {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem;
+  }
+  .stat { text-align: center; }
+  .stat-num {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 2.5rem; color: var(--gold); display: block;
+  }
+  .stat-label { font-size: .8rem; color: var(--ash); letter-spacing: 2px; text-transform: uppercase; }
+
+  /* ── BESTSELLERS ── */
+  #bestsellers {
+    background: var(--coal);
+  }
+  .bs-header { text-align: center; margin-bottom: 4rem; }
+  .bs-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    max-width: 1100px; margin: 0 auto;
+  }
+  .bs-card {
+    background: var(--smoke); border: 1px solid rgba(232,134,10,0.15);
+    padding: 2rem; position: relative; overflow: hidden;
+    transition: transform .3s, border-color .3s;
+  }
+  .bs-card:hover { transform: translateY(-6px); border-color: var(--amber); }
+  .bs-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+    background: linear-gradient(90deg, var(--ember), var(--amber));
+    transform: scaleX(0); transform-origin: left;
+    transition: transform .3s;
+  }
+  .bs-card:hover::before { transform: scaleX(1); }
+  .bs-icon { font-size: 3rem; margin-bottom: 1rem; display: block; }
+  .bs-name {
+    font-family: 'Playfair Display', serif; font-size: 1.3rem;
+    font-weight: 700; color: var(--cream); margin-bottom: .5rem;
+  }
+  .bs-desc { color: var(--ash); font-size: .9rem; line-height: 1.6; }
+  .bs-badge {
+    display: inline-block; padding: .2rem .8rem;
+    background: var(--ember); color: var(--cream);
+    font-size: .7rem; letter-spacing: 2px; text-transform: uppercase;
+    margin-bottom: .8rem;
+  }
+
+  /* ── MENU ── */
+  #menu { background: var(--smoke); }
+  .menu-header { text-align: center; margin-bottom: 4rem; }
+  .menu-grid {
+    display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem;
+    max-width: 1000px; margin: 0 auto;
+  }
+  .menu-item {
+    display: flex; align-items: flex-start; gap: 1.5rem;
+    padding: 1.8rem; border-bottom: 1px solid rgba(122,106,88,0.2);
+    transition: background .2s;
+  }
+  .menu-item:hover { background: rgba(232,134,10,0.05); }
+  .menu-num {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 2rem; color: rgba(201,74,26,0.3); min-width: 2rem;
+    line-height: 1;
+  }
+  .menu-info { flex: 1; }
+  .menu-name {
+    font-family: 'Playfair Display', serif; font-size: 1.15rem;
+    color: var(--cream); margin-bottom: .4rem;
+  }
+  .menu-desc { color: var(--ash); font-size: .88rem; line-height: 1.6; }
+  .menu-price {
+    color: var(--gold); font-weight: 500; font-size: 1rem;
+    white-space: nowrap; padding-top: .2rem;
+  }
+
+  /* ── GAME SECTION ── */
+  #game { background: var(--coal); text-align: center; }
+  .game-header { margin-bottom: 2rem; }
+  .game-wrapper {
+    max-width: 800px; margin: 0 auto;
+    border: 2px solid rgba(232,134,10,0.3);
+    background: #0d0800;
+    position: relative;
+  }
+  .game-ui-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: .8rem 1.5rem;
+    background: #1a0e05;
+    border-bottom: 1px solid rgba(232,134,10,0.2);
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 1rem; color: var(--gold);
+  }
+  #gameCanvas {
+    display: block; width: 100%; height: 420px;
+    image-rendering: pixelated;
+  }
+  .game-controls {
+    padding: 1rem; background: #1a0e05;
+    border-top: 1px solid rgba(232,134,10,0.2);
+    display: flex; align-items: center; justify-content: center; gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .game-controls p { color: var(--ash); font-size: .85rem; }
+  #startBtn {
+    padding: .7rem 2rem; background: var(--ember); color: var(--cream);
+    border: none; font-family: 'DM Sans', sans-serif; font-weight: 600;
+    font-size: .9rem; letter-spacing: 1px; text-transform: uppercase;
+    cursor: pointer; transition: background .2s;
+    clip-path: polygon(10px 0%, 100% 0%, calc(100% - 10px) 100%, 0% 100%);
+  }
+  #startBtn:hover { background: var(--glow); }
+
+  /* ── HISTORY ── */
+  #history { background: var(--smoke); }
+  .history-inner {
+    max-width: 800px; margin: 0 auto;
+  }
+  .history-text p {
+    color: var(--ash); line-height: 1.9; font-size: 1rem; margin-bottom: 1.2rem;
+  }
+  .timeline {
+    margin-top: 3rem;
+    border-left: 2px solid rgba(201,74,26,0.4);
+    padding-left: 2rem;
+  }
+  .tl-item { margin-bottom: 2rem; position: relative; }
+  .tl-item::before {
+    content: ''; position: absolute; left: -2.45rem; top: .4rem;
+    width: 12px; height: 12px; border-radius: 50%;
+    background: var(--ember); border: 2px solid var(--amber);
+  }
+  .tl-year {
+    font-family: 'Black Han Sans', sans-serif;
+    color: var(--amber); font-size: .85rem; letter-spacing: 2px; margin-bottom: .3rem;
+  }
+  .tl-desc { color: var(--ash); font-size: .9rem; line-height: 1.6; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: #0e0804;
+    padding: 3rem 4rem;
+    display: flex; justify-content: space-between; align-items: center;
+    border-top: 1px solid rgba(232,134,10,0.15);
+    flex-wrap: wrap; gap: 1rem;
+  }
+  .footer-logo {
+    font-family: 'Black Han Sans', sans-serif;
+    font-size: 2rem; color: var(--gold); letter-spacing: 2px;
+  }
+  .footer-logo span { color: var(--ember); }
+  footer p { color: var(--ash); font-size: .85rem; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 1rem 1.5rem; }
+    nav ul { gap: 1rem; }
+    nav ul a { font-size: .75rem; }
+    section { padding: 5rem 1.5rem; }
+    #about { grid-template-columns: 1fr; gap: 3rem; }
+    .bs-grid { grid-template-columns: 1fr; }
+    .menu-grid { grid-template-columns: 1fr; }
+    footer { flex-direction: column; text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#home" class="nav-logo">CHU<span>CHOOSE</span></a>
+  <ul>
+    <li><a href="#about">About</a></li>
+    <li><a href="#menu">Menu</a></li>
+    <li><a href="#game">Game</a></li>
+    <li><a href="#history">Story</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="home">
+  <div class="hero-food-bg"></div>
+  <div class="hero-bg-text">GRILL</div>
+  <div class="ember-particles" id="embers"></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">🔥 Grill it your way</p>
+    <div class="hero-grill"><img src="https://thefatbutcherph.com/cdn/shop/articles/a6ca697a-20a6-4ad8-8501-7da80a8c9ac0.png?v=1758053348" alt="Grilled meat" style="width:110px;height:110px;object-fit:cover;border-radius:50%;border:3px solid rgba(232,134,10,0.5);box-shadow:0 0 40px rgba(201,74,26,0.5);"></div>
+    <h1 class="hero-title">CHU<em>CHOOSE</em></h1>
+    <p class="hero-sub">Where every skewer tells your story. Customizable grilled cuts, bold glazes, and flavors that answer only to you.</p>
+    <div class="hero-cta">
+      <a href="#menu" class="btn-primary">Explore the Menu</a>
+      <a href="#game" class="btn-ghost">Play Sizzle Slider</a>
+    </div>
+  </div>
+  <div class="scroll-hint">↓ Scroll ↓</div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-visual">
+    <div class="about-ring"></div>
+    <div class="grill-plate"><img src="https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80" alt="Grilled skewers on a grill" loading="lazy"></div>
+  </div>
+  <div class="about-text">
+    <p class="section-label">Who We Are</p>
+    <h2 class="section-title">Grilling is an <em>art.</em><br>You are the artist.</h2>
+    <div class="divider"></div>
+    <p>Chuchoose was born from a simple but radical idea: the best meal is the one you design yourself. We put the creative control in your hands — you choose the cuts, the glazes, the sear level, the sides.</p>
+    <p>Our kitchen is your canvas. Our grill is your brush. From perfectly charred ribeye skewers to slow-basted sirloin steaks with our signature Chuchoose Glaze, every plate is a one-of-a-kind masterpiece.</p>
+    <p>What sets us apart isn't just the food — it's the <em>experience</em> of crafting something truly yours.</p>
+    <div class="about-stats">
+      <div class="stat"><span class="stat-num">10+</span><span class="stat-label">Glaze Flavors</span></div>
+      <div class="stat"><span class="stat-num">6</span><span class="stat-label">Skewer Styles</span></div>
+      <div class="stat"><span class="stat-num">∞</span><span class="stat-label">Combinations</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- BESTSELLERS -->
+<section id="bestsellers">
+  <div class="bs-header">
+    <p class="section-label">Fan Favorites</p>
+    <h2 class="section-title">Our <em>Best Sellers</em></h2>
+    <div class="divider" style="margin: 0 auto;"></div>
+  </div>
+  <div class="bs-grid">
+    <div class="bs-card">
+      <img class="bs-img" src="https://thefatbutcherph.com/cdn/shop/articles/a6ca697a-20a6-4ad8-8501-7da80a8c9ac0.png?v=1758053348" alt="Signature Chuchoose Skewer" loading="lazy">
+      <div class="bs-badge">⭐ #1 Best Seller</div>
+      <div class="bs-name">The Signature Chuchoose Skewer</div>
+      <div class="bs-desc">Juicy wagyu beef cubes slow-marinated in our house blend, threaded with roasted peppers and caramelized onions. The glaze? That's your call.</div>
+    </div>
+    <div class="bs-card">
+      <img class="bs-img" src="https://images.unsplash.com/photo-1558030006-450675393462?w=600&q=80" alt="Charcoal Ribeye Steak" loading="lazy">
+      <div class="bs-badge">🔥 Most Ordered</div>
+      <div class="bs-name">Charcoal Ribeye Steak</div>
+      <div class="bs-desc">A thick-cut ribeye kissed by real charcoal flames. Rich marbling, crackling crust, and a molten garlic herb butter finish that lingers long after the last bite.</div>
+    </div>
+    <div class="bs-card">
+      <img class="bs-img" src="https://iamhomesteader.com/wp-content/uploads/2026/02/Garlic-Chili-Chicken-Skewers-3.jpg" alt="Ember Chili Glaze Skewer" loading="lazy">
+      <div class="bs-badge">💥 Staff Pick</div>
+      <div class="bs-name">Ember Chili Glaze Skewer</div>
+      <div class="bs-desc">For those who want heat and depth. Our smoky ember chili glaze coats every surface of your chosen cut, delivering a slow burn that builds with every bite.</div>
+    </div>
+  </div>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="menu-header">
+    <p class="section-label">What We Serve</p>
+    <h2 class="section-title">The Full <em>Menu</em></h2>
+    <div class="divider" style="margin: 0 auto;"></div>
+  </div>
+  <div class="menu-grid">
+    <div class="menu-item">
+      <span class="menu-num">01</span>
+      <img class="menu-thumb" src="https://thefatbutcherph.com/cdn/shop/articles/a6ca697a-20a6-4ad8-8501-7da80a8c9ac0.png?v=1758053348" alt="Signature Skewer" loading="lazy">
+      <div class="menu-info">
+        <div class="menu-name">The Signature Chuchoose Skewer</div>
+        <div class="menu-desc">Wagyu beef cubes, charcoal-seared and glazed with your choice of sauce — from honeyed miso to fiery habanero. An invitation to experiment.</div>
+      </div>
+      <div class="menu-price">₱265</div>
+    </div>
+    <div class="menu-item">
+      <span class="menu-num">02</span>
+      <img class="menu-thumb" src="https://images.unsplash.com/photo-1558030006-450675393462?w=150&q=80" alt="Ribeye Steak" loading="lazy">
+      <div class="menu-info">
+        <div class="menu-name">Charcoal Ribeye Steak</div>
+        <div class="menu-desc">300g premium ribeye, hard-seared over live charcoal to your preferred doneness. Topped with compound butter and a side of ember-roasted garlic.</div>
+      </div>
+      <div class="menu-price">₱595</div>
+    </div>
+    <div class="menu-item">
+      <span class="menu-num">03</span>
+      <img class="menu-thumb" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2YMi38vz8nmXwgygVDRxLUilZsu6lgXn0QA&s" alt="Mixed Grill Tower" loading="lazy">
+      <div class="menu-info">
+        <div class="menu-name">Mixed Grill Tower</div>
+        <div class="menu-desc">Chicken thigh, pork belly, and beef loin skewers stacked on a signature tower stand. Three glazes, one dramatic plate — made for sharing, stolen for yourself.</div>
+      </div>
+      <div class="menu-price">₱480</div>
+    </div>
+    <div class="menu-item">
+      <span class="menu-num">04</span>
+      <img class="menu-thumb" src="https://images.unsplash.com/photo-1512621776951-a57141f2eefd?w=150&q=80" alt="Garden Skewer" loading="lazy">
+      <div class="menu-info">
+        <div class="menu-name">Garden Skewer</div>
+        <div class="menu-desc">Zucchini, corn cobs, mushrooms, and cherry tomatoes fire-roasted and drizzled with truffle olive oil and shaved parmesan. Even the greens get a glow-up.</div>
+      </div>
+      <div class="menu-price">₱185</div>
+    </div>
+    <div class="menu-item">
+      <span class="menu-num">05</span>
+      <img class="menu-thumb" src="https://images.unsplash.com/photo-1567620832903-9fc6debc209f?w=150&q=80" alt="Honey Sriracha Chicken" loading="lazy">
+      <div class="menu-info">
+        <div class="menu-name">Honey Sriracha Chicken Skewer</div>
+        <div class="menu-desc">Free-range thigh chunks glazed in a sticky honey-sriracha marinade, charred at the edges for caramelized sweetness with a slow-building kick.</div>
+      </div>
+      <div class="menu-price">₱225</div>
+    </div>
+    <div class="menu-item">
+      <span class="menu-num">06</span>
+      <img class="menu-thumb" src="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?w=150&q=80" alt="Charred Caesar" loading="lazy">
+      <div class="menu-info">
+        <div class="menu-name">Charred Caesar Side</div>
+        <div class="menu-desc">Romaine hearts lightly grilled over the same coals as your meat, tossed in house-made Caesar and topped with smoked parmesan croutons. Salad reimagined.</div>
+      </div>
+      <div class="menu-price">₱145</div>
+    </div>
+    <div class="menu-item">
+      <span class="menu-num">07</span>
+      <img class="menu-thumb" src="https://images.unsplash.com/photo-1544025162-d76694265947?w=150&q=80" alt="Glaze Flight" loading="lazy">
+      <div class="menu-info">
+        <div class="menu-name">Signature Glaze Flight</div>
+        <div class="menu-desc">Can't choose? Pair any skewer order with five house glazes: Ember Chili, Truffle Miso, Honey Yuzu, Smoky BBQ, and Garlic Herb Butter for full creative freedom.</div>
+      </div>
+      <div class="menu-price">₱95</div>
+    </div>
+    <div class="menu-item">
+      <span class="menu-num">08</span>
+      <img class="menu-thumb" src="https://images.unsplash.com/photo-1603133872878-684f208fb84b?w=150&q=80" alt="Grill Master Rice Bowl" loading="lazy">
+      <div class="menu-info">
+        <div class="menu-name">Grill Master's Rice Bowl</div>
+        <div class="menu-desc">Steamed garlic rice topped with sliced sirloin or chicken, drizzled with your choice of glaze and finished with a perfectly runny onsen egg. Comfort, elevated.</div>
+      </div>
+      <div class="menu-price">₱310</div>
+    </div>
+    <div class="menu-item">
+      <span class="menu-num">09</span>
+      <img class="menu-thumb" src="https://asianinspirations.com.au/wp-content/uploads/2019/04/R01995_Chilli-Lime-Barbecue-Prawn-Skewers.jpg" alt="Skewer and Shells" loading="lazy">
+      <div class="menu-info">
+        <div class="menu-name">Skewer & Shells Combo</div>
+        <div class="menu-desc">Prawn skewers fire-kissed with chili-lime butter alongside beef sirloin skewers. Ocean meets land, united by flame and a shared dedication to the perfect char.</div>
+      </div>
+      <div class="menu-price">₱420</div>
+    </div>
+    <div class="menu-item">
+      <span class="menu-num">10</span>
+      <img class="menu-thumb" src="https://i0.wp.com/tarunsehgal.com/wp-content/uploads/2020/06/IMG_1844.jpg?resize=1024%2C683&ssl=1" alt="Burnt Caramel Leche Flan" loading="lazy">
+      <div class="menu-info">
+        <div class="menu-name">Burnt Caramel Leche Flan</div>
+        <div class="menu-desc">A dessert fit for a grill house — our house flan finished with a torched caramel crust that cracks like a dream. Sweet, slightly bitter, absolutely unforgettable.</div>
+      </div>
+      <div class="menu-price">₱120</div>
+    </div>
+  </div>
+</section>
+
+<!-- GAME SECTION -->
+<section id="game">
+  <div class="game-header">
+    <p class="section-label">Mini Game</p>
+    <h2 class="section-title">The <em>Sizzle Slider</em></h2>
+    <div class="divider" style="margin: 0 auto 1rem;"></div>
+    <p style="color: var(--ash); max-width: 520px; margin: 0 auto 2rem; font-size: .95rem; line-height: 1.7;">
+      Time your click as the skewer passes the glowing "Perfect Sear" zone. Get consecutive perfect hits to rack up bonus points. How good is your grill sense?
+    </p>
+  </div>
+  <div class="game-wrapper">
+    <div class="game-ui-bar">
+      <div>🔥 SCORE: <span id="scoreDisplay">0</span></div>
+      <div>CHUCHOOSE: THE SIZZLE SLIDER</div>
+      <div>❤️ LIVES: <span id="livesDisplay">3</span></div>
+    </div>
+    <canvas id="gameCanvas" width="800" height="420"></canvas>
+    <div class="game-controls">
+      <p>SPACEBAR or TAP to sear! Hit the glow zone for a Perfect Sear!</p>
+      <button id="startBtn" onclick="startGame()">START GRILLING</button>
+    </div>
+  </div>
+</section>
+
+<!-- HISTORY -->
+<section id="history">
+  <div class="history-inner">
+    <p class="section-label">Our Story</p>
+    <h2 class="section-title">Born from a <em>Nickname,</em><br>Built for Everyone.</h2>
+    <div class="divider"></div>
+    <div class="history-text">
+      <p>Chuchoose started as a half-serious joke at a backyard cookout. The host — known to friends as "Chuchu" — kept insisting that every guest should season their own skewer, pick their own glaze, and take ownership of their plate. "You choose," he'd say. "Chuchu-choose it."</p>
+      <p>The name stuck. The concept grew into something bigger: a dining philosophy where the customer's preference isn't a detail but the entire point. No default orders, no standard plates — just you, the grill, and every combination imaginable.</p>
+      <p>What began as a pop-up stall at a local night market has grown into a full restaurant experience, but the heart of it remains the same: your meal, your way, every time.</p>
+    </div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-year">2021 — THE BACKYARD</div>
+        <div class="tl-desc">Chuchu's famous cookout philosophy goes viral among friends. The "you choose" concept is born over charcoal and cold drinks.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2022 — NIGHT MARKET POP-UP</div>
+        <div class="tl-desc">First public appearance at a local night market. 200 skewers sold out in under two hours. Word spreads fast.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2023 — FIRST BRICK & MORTAR</div>
+        <div class="tl-desc">Chuchoose opens its first dine-in location with 8 signature glazes, an open-flame grill station, and a line out the door from day one.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">2024 — THE GLAZE LAB</div>
+        <div class="tl-desc">We launch our in-house Glaze Lab, letting customers mix two glazes to create a personal signature. Over 1,000 unique combinations recorded to date.</div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-year">TODAY — YOUR TABLE</div>
+        <div class="tl-desc">The journey continues. New cuts, new glazes, same promise: every meal at Chuchoose is entirely, unapologetically yours.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">CHU<span>CHOOSE</span></div>
+  <p>© 2025 Chuchoose. Grill your way.</p>
+  <p style="color: var(--ash);">🔥 Open Daily 11AM – 10PM</p>
+</footer>
+
+<script>
+// ── EMBER PARTICLES ──
+(function() {
+  const container = document.getElementById('embers');
+  for (let i = 0; i < 25; i++) {
+    const s = document.createElement('span');
+    s.style.left = Math.random() * 100 + '%';
+    s.style.bottom = '0';
+    s.style.animationDelay = (Math.random() * 4) + 's';
+    s.style.animationDuration = (3 + Math.random() * 4) + 's';
+    s.style.width = s.style.height = (2 + Math.random() * 4) + 'px';
+    s.style.background = Math.random() > .5 ? '#e8860a' : '#f5c842';
+    container.appendChild(s);
+  }
+})();
+
+// ── SIZZLE SLIDER GAME ──
+const canvas = document.getElementById('gameCanvas');
+const ctx = canvas.getContext('2d');
+canvas.width = 800;
+canvas.height = 420;
+
+let gameState = 'idle'; // idle, playing, gameover
+let score = 0, lives = 3, combo = 0, hiScore = 0;
+let animFrame;
+
+// Skewer object
+const skewer = {
+  x: 80,
+  y: 210,
+  speed: 3.5,
+  dir: 1,
+  width: 140,
+  height: 16,
+};
+
+// Perfect sear zone
+const zone = {
+  x: 380,
+  y: 175,
+  width: 90,
+  height: 70,
+};
+
+// Visual effects
+let effects = [];
+let grillLines = [];
+let particles = [];
+let bgFlicker = 0;
+let speedMultiplier = 1;
+let hitCooldown = 0;
+let missFlash = 0;
+let scoreAnim = [];
+let frame = 0;
+
+function initGrillLines() {
+  grillLines = [];
+  for (let i = 0; i < 8; i++) {
+    grillLines.push({ y: 140 + i * 20, alpha: 0.15 + Math.random() * .1 });
+  }
+}
+
+function spawnParticles(x, y, perfect) {
+  for (let i = 0; i < (perfect ? 18 : 8); i++) {
+    const angle = Math.random() * Math.PI * 2;
+    const speed = 1.5 + Math.random() * 4;
+    particles.push({
+      x, y,
+      vx: Math.cos(angle) * speed,
+      vy: Math.sin(angle) * speed - 2,
+      life: 1,
+      size: perfect ? 5 + Math.random() * 5 : 3 + Math.random() * 3,
+      color: perfect ? '#f5c842' : '#e8860a',
+    });
+  }
+}
+
+function addScoreAnim(x, y, text, color) {
+  scoreAnim.push({ x, y, text, color, alpha: 1, vy: -1.5, life: 60 });
+}
+
+function drawBackground() {
+  // Dark grill background
+  ctx.fillStyle = '#0d0800';
+  ctx.fillRect(0, 0, 800, 420);
+
+  // Grill surface gradient
+  const grad = ctx.createLinearGradient(0, 130, 0, 290);
+  grad.addColorStop(0, 'rgba(60,25,5,0.9)');
+  grad.addColorStop(1, 'rgba(20,8,0,0.9)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 130, 800, 160);
+
+  // Grill lines
+  grillLines.forEach(gl => {
+    ctx.strokeStyle = `rgba(255,160,40,${gl.alpha})`;
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, gl.y);
+    ctx.lineTo(800, gl.y);
+    ctx.stroke();
+  });
+
+  // Ember glow beneath grill
+  const emGrad = ctx.createRadialGradient(400, 310, 0, 400, 310, 300);
+  emGrad.addColorStop(0, 'rgba(200,60,0,0.35)');
+  emGrad.addColorStop(1, 'rgba(200,60,0,0)');
+  ctx.fillStyle = emGrad;
+  ctx.fillRect(0, 180, 800, 240);
+
+  // Subtle flicker
+  bgFlicker = (bgFlicker + 0.05) % (Math.PI * 2);
+  ctx.fillStyle = `rgba(200,80,0,${0.04 + Math.sin(bgFlicker) * 0.02})`;
+  ctx.fillRect(0, 0, 800, 420);
+}
+
+function drawZone() {
+  // Glow effect
+  const pulse = 0.6 + Math.sin(frame * 0.08) * 0.2;
+  const zGrad = ctx.createRadialGradient(
+    zone.x + zone.width / 2, zone.y + zone.height / 2, 0,
+    zone.x + zone.width / 2, zone.y + zone.height / 2, 60
+  );
+  zGrad.addColorStop(0, `rgba(245,200,66,${pulse * 0.45})`);
+  zGrad.addColorStop(1, 'rgba(245,200,66,0)');
+  ctx.fillStyle = zGrad;
+  ctx.fillRect(zone.x - 20, zone.y - 20, zone.width + 40, zone.height + 40);
+
+  // Zone border
+  ctx.strokeStyle = `rgba(245,200,66,${0.5 + Math.sin(frame * 0.1) * 0.3})`;
+  ctx.lineWidth = 2;
+  ctx.strokeRect(zone.x, zone.y, zone.width, zone.height);
+
+  // Label
+  ctx.fillStyle = `rgba(245,200,66,${0.7 + Math.sin(frame * 0.1) * 0.2})`;
+  ctx.font = 'bold 11px DM Sans, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('PERFECT SEAR', zone.x + zone.width / 2, zone.y - 8);
+  ctx.textAlign = 'left';
+}
+
+function drawSkewer() {
+  const sx = skewer.x;
+  const sy = skewer.y;
+  const sw = skewer.width;
+  const sh = skewer.height;
+
+  // Skewer stick
+  const stickGrad = ctx.createLinearGradient(sx - 30, sy, sx + sw + 30, sy);
+  stickGrad.addColorStop(0, '#8B5E3C');
+  stickGrad.addColorStop(0.4, '#C4904E');
+  stickGrad.addColorStop(1, '#8B5E3C');
+  ctx.fillStyle = stickGrad;
+  ctx.fillRect(sx - 30, sy - 3, sw + 60, 6);
+
+  // Meat chunks
+  const chunks = [
+    { dx: 0, emoji: '🥩' },
+    { dx: 35, emoji: '🫑' },
+    { dx: 70, emoji: '🥩' },
+    { dx: 105, emoji: '🧅' },
+  ];
+  chunks.forEach(c => {
+    ctx.font = '28px serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(c.emoji, sx + c.dx + 14, sy + 10);
+  });
+
+  // Char glow when near zone
+  const skCenterX = sx + sw / 2;
+  const inZone = skCenterX >= zone.x && skCenterX <= zone.x + zone.width;
+  if (inZone) {
+    ctx.shadowColor = '#ff7c2a';
+    ctx.shadowBlur = 20;
+    ctx.font = '28px serif';
+    ctx.textAlign = 'center';
+    chunks.forEach(c => ctx.fillText(c.emoji, sx + c.dx + 14, sy + 10));
+    ctx.shadowBlur = 0;
+  }
+  ctx.textAlign = 'left';
+}
+
+function drawParticles() {
+  particles = particles.filter(p => p.life > 0);
+  particles.forEach(p => {
+    p.x += p.vx;
+    p.y += p.vy;
+    p.vy += 0.15;
+    p.life -= 0.025;
+    ctx.globalAlpha = Math.max(0, p.life);
+    ctx.fillStyle = p.color;
+    ctx.beginPath();
+    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+    ctx.fill();
+  });
+  ctx.globalAlpha = 1;
+}
+
+function drawScoreAnims() {
+  scoreAnim = scoreAnim.filter(s => s.life > 0);
+  scoreAnim.forEach(s => {
+    s.y += s.vy;
+    s.life--;
+    s.alpha = s.life / 60;
+    ctx.globalAlpha = s.alpha;
+    ctx.fillStyle = s.color;
+    ctx.font = 'bold 22px Black Han Sans, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText(s.text, s.x, s.y);
+  });
+  ctx.globalAlpha = 1;
+  ctx.textAlign = 'left';
+}
+
+function drawHUD() {
+  // Combo indicator
+  if (combo >= 2) {
+    ctx.fillStyle = '#f5c842';
+    ctx.font = `bold ${14 + combo}px Black Han Sans, sans-serif`;
+    ctx.textAlign = 'center';
+    ctx.fillText(`🔥 ${combo}x COMBO!`, 400, 50);
+    ctx.textAlign = 'left';
+  }
+
+  // Miss flash
+  if (missFlash > 0) {
+    ctx.fillStyle = `rgba(180,0,0,${missFlash * 0.3})`;
+    ctx.fillRect(0, 0, 800, 420);
+    missFlash -= 0.08;
+  }
+
+  // Instructions
+  if (gameState === 'playing') {
+    ctx.fillStyle = 'rgba(122,106,88,0.6)';
+    ctx.font = '12px DM Sans, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText('SPACE or TAP to sear!', 790, 405);
+    ctx.textAlign = 'left';
+  }
+}
+
+function drawIdle() {
+  drawBackground();
+  ctx.fillStyle = 'rgba(0,0,0,0.5)';
+  ctx.fillRect(0, 0, 800, 420);
+
+  ctx.fillStyle = '#f5c842';
+  ctx.font = 'bold 42px Black Han Sans, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('THE SIZZLE SLIDER', 400, 170);
+
+  ctx.fillStyle = '#e8860a';
+  ctx.font = '16px DM Sans, sans-serif';
+  ctx.fillText('Time your click on the Perfect Sear zone!', 400, 210);
+
+  ctx.fillStyle = 'rgba(245,200,66,0.7)';
+  ctx.font = '13px DM Sans, sans-serif';
+  ctx.fillText('Press START GRILLING to play', 400, 250);
+
+  if (hiScore > 0) {
+    ctx.fillStyle = '#c94a1a';
+    ctx.font = '14px DM Sans, sans-serif';
+    ctx.fillText(`Best Score: ${hiScore}`, 400, 290);
+  }
+  ctx.textAlign = 'left';
+}
+
+function drawGameOver() {
+  drawBackground();
+  ctx.fillStyle = 'rgba(0,0,0,0.7)';
+  ctx.fillRect(0, 0, 800, 420);
+
+  ctx.fillStyle = '#c94a1a';
+  ctx.font = 'bold 52px Black Han Sans, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('GRILL OVER!', 400, 160);
+
+  ctx.fillStyle = '#f5c842';
+  ctx.font = '28px Black Han Sans, sans-serif';
+  ctx.fillText(`Score: ${score}`, 400, 210);
+
+  if (score >= hiScore) {
+    ctx.fillStyle = '#e8860a';
+    ctx.font = '18px DM Sans, sans-serif';
+    ctx.fillText('🏆 New Best Score!', 400, 250);
+  } else {
+    ctx.fillStyle = '#7a6a58';
+    ctx.font = '16px DM Sans, sans-serif';
+    ctx.fillText(`Best: ${hiScore}`, 400, 250);
+  }
+
+  ctx.fillStyle = 'rgba(245,200,66,0.7)';
+  ctx.font = '13px DM Sans, sans-serif';
+  ctx.fillText('Press START GRILLING to try again', 400, 295);
+  ctx.textAlign = 'left';
+}
+
+function gameLoop() {
+  frame++;
+  if (gameState !== 'playing') {
+    if (gameState === 'idle') drawIdle();
+    else drawGameOver();
+    animFrame = requestAnimationFrame(gameLoop);
+    return;
+  }
+
+  drawBackground();
+  drawZone();
+
+  // Move skewer
+  skewer.x += skewer.speed * skewer.dir * speedMultiplier;
+  if (skewer.x + skewer.width > 730) { skewer.x = 730 - skewer.width; skewer.dir = -1; }
+  if (skewer.x < 70) { skewer.x = 70; skewer.dir = 1; }
+
+  drawSkewer();
+  drawParticles();
+  drawScoreAnims();
+  drawHUD();
+
+  if (hitCooldown > 0) hitCooldown--;
+
+  animFrame = requestAnimationFrame(gameLoop);
+}
+
+function checkHit() {
+  if (gameState !== 'playing' || hitCooldown > 0) return;
+  hitCooldown = 25;
+
+  const skCenterX = skewer.x + skewer.width / 2;
+  const skCenterY = skewer.y;
+
+  if (
+    skCenterX >= zone.x && skCenterX <= zone.x + zone.width &&
+    skCenterY >= zone.y - 30 && skCenterY <= zone.y + zone.height + 30
+  ) {
+    // Check how centered
+    const zoneCenter = zone.x + zone.width / 2;
+    const dist = Math.abs(skCenterX - zoneCenter);
+    let pts, label, color;
+
+    if (dist < 15) {
+      pts = 50; label = '🔥 PERFECT!'; color = '#f5c842'; combo++;
+      spawnParticles(skCenterX, skCenterY, true);
+    } else {
+      pts = 20; label = '✅ GOOD'; color = '#e8860a'; combo++;
+      spawnParticles(skCenterX, skCenterY, false);
+    }
+
+    if (combo >= 3) pts += combo * 10;
+    score += pts * (combo >= 3 ? 2 : 1);
+
+    addScoreAnim(skCenterX, skCenterY - 30,
+      combo >= 3 ? `+${pts} (${combo}x)` : `+${pts}`,
+      color
+    );
+
+    speedMultiplier = 1 + Math.min(score / 500, 1.5);
+    document.getElementById('scoreDisplay').textContent = score;
+
+  } else {
+    // Miss
+    combo = 0;
+    lives--;
+    missFlash = 1;
+    addScoreAnim(skCenterX, skCenterY - 30, 'MISS!', '#c94a1a');
+    document.getElementById('livesDisplay').textContent = '❤️'.repeat(lives) || '💀';
+
+    if (lives <= 0) {
+      gameState = 'gameover';
+      if (score > hiScore) hiScore = score;
+      document.getElementById('startBtn').textContent = 'TRY AGAIN';
+    }
+  }
+}
+
+function startGame() {
+  score = 0; lives = 3; combo = 0; speedMultiplier = 1;
+  hitCooldown = 0; missFlash = 0;
+  particles = []; scoreAnim = [];
+  skewer.x = 80; skewer.dir = 1;
+  document.getElementById('scoreDisplay').textContent = '0';
+  document.getElementById('livesDisplay').textContent = '❤️❤️❤️';
+  document.getElementById('startBtn').textContent = 'RESTART';
+  gameState = 'playing';
+}
+
+// Controls
+document.addEventListener('keydown', e => {
+  if (e.code === 'Space') { e.preventDefault(); checkHit(); }
+});
+canvas.addEventListener('click', checkHit);
+canvas.addEventListener('touchstart', e => { e.preventDefault(); checkHit(); }, { passive: false });
+
+initGrillLines();
+gameLoop();
+</script>
+</body>
+</html>
